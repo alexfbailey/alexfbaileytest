@@ -1435,6 +1435,32 @@ body {
 
 .btn-primary:active { background: var(--primary-dark); }
 
+/* Article Body Card (tip detail page) */
+.article-body-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
+}
+
+.article-body-card p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.related-section {
+  margin-top: 28px;
+}
+
+.related-section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  margin-bottom: 12px;
+}
+
 /* Bottom Spacer */
 .bottom-spacer { height: 20px; }
 
