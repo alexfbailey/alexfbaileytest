@@ -810,29 +810,35 @@ function filterByTag(btn, tag) {
 function toggleDarkMode() {
   const isChecked = document.getElementById('dark-mode-toggle').checked;
   if (isChecked) {
-    document.documentElement.style.setProperty('--bg', '#0A0A0A');
-    document.documentElement.style.setProperty('--bg-card', '#1A1A1A');
-    document.documentElement.style.setProperty('--bg-card-hover', '#222222');
-    document.documentElement.style.setProperty('--bg-elevated', '#252525');
-    document.documentElement.style.setProperty('--text', '#FFFFFF');
+    document.documentElement.style.setProperty('--bg', '#1E1E1E');
+    document.documentElement.style.setProperty('--bg-card', '#2C2C2C');
+    document.documentElement.style.setProperty('--bg-card-hover', '#363636');
+    document.documentElement.style.setProperty('--bg-elevated', '#3A3A3A');
+    document.documentElement.style.setProperty('--text', '#EFEFEF');
     document.documentElement.style.setProperty('--text-secondary', '#A0A0A0');
-    document.documentElement.style.setProperty('--text-muted', '#666666');
-    document.documentElement.style.setProperty('--border', '#333333');
+    document.documentElement.style.setProperty('--text-muted', '#6B6B6B');
+    document.documentElement.style.setProperty('--border', '#3A3A3A');
     document.documentElement.style.setProperty('--border-light', '#444444');
-    document.documentElement.style.setProperty('--black', '#FFFFFF');
-    document.documentElement.style.setProperty('--white', '#0A0A0A');
+    document.documentElement.style.setProperty('--black', '#EFEFEF');
+    document.documentElement.style.setProperty('--white', '#1E1E1E');
+    document.documentElement.style.setProperty('--shadow-sm', '0 1px 4px rgba(0,0,0,0.2)');
+    document.documentElement.style.setProperty('--shadow-md', '0 2px 12px rgba(0,0,0,0.3)');
+    document.documentElement.style.setProperty('--shadow-lg', '0 4px 24px rgba(0,0,0,0.4)');
   } else {
     document.documentElement.style.setProperty('--bg', '#FFFFFF');
-    document.documentElement.style.setProperty('--bg-card', '#F5F5F5');
-    document.documentElement.style.setProperty('--bg-card-hover', '#EBEBEB');
-    document.documentElement.style.setProperty('--bg-elevated', '#E8E8E8');
-    document.documentElement.style.setProperty('--text', '#000000');
-    document.documentElement.style.setProperty('--text-secondary', '#555555');
-    document.documentElement.style.setProperty('--text-muted', '#999999');
-    document.documentElement.style.setProperty('--border', '#000000');
-    document.documentElement.style.setProperty('--border-light', '#D0D0D0');
-    document.documentElement.style.setProperty('--black', '#000000');
+    document.documentElement.style.setProperty('--bg-card', '#FFFFFF');
+    document.documentElement.style.setProperty('--bg-card-hover', '#F9F9F9');
+    document.documentElement.style.setProperty('--bg-elevated', '#EFEFEF');
+    document.documentElement.style.setProperty('--text', '#111111');
+    document.documentElement.style.setProperty('--text-secondary', '#767676');
+    document.documentElement.style.setProperty('--text-muted', '#B5B5B5');
+    document.documentElement.style.setProperty('--border', '#EFEFEF');
+    document.documentElement.style.setProperty('--border-light', '#E2E2E2');
+    document.documentElement.style.setProperty('--black', '#111111');
     document.documentElement.style.setProperty('--white', '#FFFFFF');
+    document.documentElement.style.setProperty('--shadow-sm', '0 1px 4px rgba(0,0,0,0.06)');
+    document.documentElement.style.setProperty('--shadow-md', '0 2px 12px rgba(0,0,0,0.08)');
+    document.documentElement.style.setProperty('--shadow-lg', '0 4px 24px rgba(0,0,0,0.12)');
   }
 }
 
