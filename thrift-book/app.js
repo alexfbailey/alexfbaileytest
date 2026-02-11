@@ -661,23 +661,29 @@ function addPurchase() {
 function toggleDarkMode() {
   const isChecked = document.getElementById('dark-mode-toggle').checked;
   if (isChecked) {
-    document.documentElement.style.setProperty('--bg', '#0F0F0F');
+    document.documentElement.style.setProperty('--bg', '#0A0A0A');
     document.documentElement.style.setProperty('--bg-card', '#1A1A1A');
     document.documentElement.style.setProperty('--bg-card-hover', '#222222');
     document.documentElement.style.setProperty('--bg-elevated', '#252525');
     document.documentElement.style.setProperty('--text', '#FFFFFF');
     document.documentElement.style.setProperty('--text-secondary', '#A0A0A0');
     document.documentElement.style.setProperty('--text-muted', '#666666');
-    document.documentElement.style.setProperty('--border', '#2A2A2A');
+    document.documentElement.style.setProperty('--border', '#333333');
+    document.documentElement.style.setProperty('--border-light', '#444444');
+    document.documentElement.style.setProperty('--black', '#FFFFFF');
+    document.documentElement.style.setProperty('--white', '#0A0A0A');
   } else {
-    document.documentElement.style.setProperty('--bg', '#FAF7F4');
-    document.documentElement.style.setProperty('--bg-card', '#FFFFFF');
-    document.documentElement.style.setProperty('--bg-card-hover', '#F5F0EB');
-    document.documentElement.style.setProperty('--bg-elevated', '#F0ECE7');
-    document.documentElement.style.setProperty('--text', '#1A1A1A');
-    document.documentElement.style.setProperty('--text-secondary', '#6B6B6B');
+    document.documentElement.style.setProperty('--bg', '#FFFFFF');
+    document.documentElement.style.setProperty('--bg-card', '#F5F5F5');
+    document.documentElement.style.setProperty('--bg-card-hover', '#EBEBEB');
+    document.documentElement.style.setProperty('--bg-elevated', '#E8E8E8');
+    document.documentElement.style.setProperty('--text', '#000000');
+    document.documentElement.style.setProperty('--text-secondary', '#555555');
     document.documentElement.style.setProperty('--text-muted', '#999999');
-    document.documentElement.style.setProperty('--border', '#E8E2DC');
+    document.documentElement.style.setProperty('--border', '#000000');
+    document.documentElement.style.setProperty('--border-light', '#D0D0D0');
+    document.documentElement.style.setProperty('--black', '#000000');
+    document.documentElement.style.setProperty('--white', '#FFFFFF');
   }
 }
 
