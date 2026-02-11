@@ -43,7 +43,6 @@
           <!-- Filter Pills (scrolling bar of subjects) -->
           <div class="filter-pills">
             <button class="pill active" onclick="filterByTag(this, 'all')">All</button>
-            <button class="pill" onclick="filterByTag(this, 'popular')">Popular</button>
             <button class="pill" onclick="filterByTag(this, 'clothing')">Clothing</button>
             <button class="pill" onclick="filterByTag(this, 'home')">Home</button>
             <button class="pill" onclick="filterByTag(this, 'accessories')">Accessories</button>
@@ -53,8 +52,7 @@
 
         <!-- Topic List (one per row) -->
         <div class="section-header">
-          <h2>Learn to Thrift</h2>
-          <span class="see-all" onclick="showAllCategories()">See All</span>
+          <h2>Pick a topic to learn about</h2>
         </div>
         <div class="topic-list" id="topic-list">
           <!-- Topics injected by JS -->
@@ -67,17 +65,9 @@
       <div class="page" id="page-featured">
         <div class="page-header">
           <h1 class="page-title">Inspo</h1>
-          <p class="header-subtitle">Style ideas from across the internet</p>
-          <div class="filter-pills">
-            <button class="pill active" onclick="filterInspo(this, 'all')">For You</button>
-            <button class="pill" onclick="filterInspo(this, 'plus-size')">Plus Size</button>
-            <button class="pill" onclick="filterInspo(this, 'runway')">Runway</button>
-            <button class="pill" onclick="filterInspo(this, 'vintage')">Vintage</button>
-            <button class="pill" onclick="filterInspo(this, 'accessories')">Accessories</button>
-          </div>
         </div>
-        <div class="inspo-feed" id="inspo-feed">
-          <!-- Inspo cards injected by JS -->
+        <div class="bulletin-board" id="inspo-feed">
+          <!-- Bulletin board pins injected by JS -->
         </div>
 
         <!-- Thrift List (moved from List tab) -->
@@ -151,36 +141,63 @@
         <div class="bottom-spacer"></div>
       </div>
 
-      <!-- BUDGET PAGE (was List) -->
+      <!-- BUDGET PAGE -->
       <div class="page" id="page-budget">
-        <div class="page-header">
-          <h1 class="page-title">Budget</h1>
-          <p class="header-subtitle">Track your thrift spending</p>
-        </div>
 
-        <div class="budget-overview">
-          <div class="budget-amount-row">
-            <span class="budget-spent-amount" id="budget-spent">$67.50</span>
-            <span class="budget-total-amount">of $150.00</span>
+        <!-- Budget Planner Onboarding (first-time) -->
+        <div class="budget-planner" id="budget-planner">
+          <div class="planner-content">
+            <div class="planner-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h1 class="planner-title">Thrift Budget Planner</h1>
+            <p class="planner-desc">Set your spending goal before you start thrifting</p>
+
+            <div class="planner-form">
+              <label class="planner-label">I have</label>
+              <div class="planner-amount-input">
+                <span class="planner-dollar">$</span>
+                <input type="number" id="planner-amount" placeholder="0" min="1" step="1">
+              </div>
+              <label class="planner-label">to thrift this</label>
+              <div class="planner-period-options" id="planner-period-options">
+                <button class="planner-period-btn active" onclick="selectPeriod(this, 'month')">Month</button>
+                <button class="planner-period-btn" onclick="selectPeriod(this, 'season')">Season</button>
+                <button class="planner-period-btn" onclick="selectPeriod(this, 'trip')">Trip</button>
+                <button class="planner-period-btn" onclick="selectPeriod(this, 'year')">Year</button>
+              </div>
+              <button class="btn-primary planner-submit" onclick="submitBudgetPlan()">Let's go</button>
+            </div>
           </div>
-          <div class="budget-bar">
-            <div class="budget-bar-fill" id="budget-bar-fill"></div>
+        </div>
+
+        <!-- Main Budget View (hidden until planner filled) -->
+        <div class="budget-main" id="budget-main" style="display: none;">
+          <div class="page-header">
+            <h1 class="page-title">Budget</h1>
+            <p class="header-subtitle" id="budget-period-label">Track your thrift spending</p>
           </div>
-          <p class="budget-remaining" id="budget-remaining">$82.50 remaining this month</p>
-        </div>
 
-        <div class="budget-categories" id="budget-categories">
-          <!-- Budget category breakdown injected by JS -->
-        </div>
+          <div class="budget-overview">
+            <div class="budget-amount-row">
+              <span class="budget-spent-amount" id="budget-spent">$0.00</span>
+              <span class="budget-total-amount" id="budget-total">of $0.00</span>
+            </div>
+            <div class="budget-bar">
+              <div class="budget-bar-fill" id="budget-bar-fill"></div>
+            </div>
+            <p class="budget-remaining" id="budget-remaining">$0.00 remaining</p>
+          </div>
 
-        <div class="section-header">
-          <h2>Recent Purchases</h2>
-          <button class="add-btn" onclick="showAddPurchase()">+ Add</button>
+          <div class="section-header">
+            <h2>My Purchases</h2>
+            <button class="add-btn" onclick="showAddPurchase()">+ Add</button>
+          </div>
+          <div class="purchase-list" id="purchase-list">
+            <!-- Purchase items injected by JS -->
+          </div>
+          <div class="bottom-spacer"></div>
         </div>
-        <div class="purchase-list" id="purchase-list">
-          <!-- Purchase items injected by JS -->
-        </div>
-        <div class="bottom-spacer"></div>
       </div>
 
       <!-- SETTINGS PAGE -->

@@ -297,104 +297,64 @@ const inspoFeed = [
     image: '👗',
     title: 'Oversized blazer + wide leg trouser moment',
     handle: '@thaboranoke',
-    platform: 'Instagram',
-    platformIcon: '📸',
-    tags: ['streetwear', 'plus-size'],
-    saves: 1243,
     bgClass: 'inspo-bg-1',
-    sizeTag: 'Size 18',
-    link: '#'
+    pinned: false
   },
   {
     id: 2,
     image: '🧥',
     title: '70s suede jacket styling for fall',
     handle: '@vintagesoulmate',
-    platform: 'Pinterest',
-    platformIcon: '📌',
-    tags: ['vintage', 'outerwear'],
-    saves: 892,
     bgClass: 'inspo-bg-2',
-    sizeTag: null,
-    link: '#'
+    pinned: false
   },
   {
     id: 3,
     image: '👠',
     title: 'Runway to thrift: Miu Miu ballet flat dupes',
     handle: '@thriftedrunway',
-    platform: 'TikTok',
-    platformIcon: '🎵',
-    tags: ['runway', 'shoes'],
-    saves: 2104,
     bgClass: 'inspo-bg-3',
-    sizeTag: null,
-    link: '#'
+    pinned: false
   },
   {
     id: 4,
     image: '👖',
     title: 'Barrel jeans + crop top — all thrifted',
     handle: '@curvythriftqueen',
-    platform: 'Instagram',
-    platformIcon: '📸',
-    tags: ['denim', 'plus-size'],
-    saves: 1567,
     bgClass: 'inspo-bg-4',
-    sizeTag: 'Size 22',
-    link: '#'
+    pinned: false
   },
   {
     id: 5,
     image: '💍',
     title: 'Layered gold jewelry — all under $5 at Goodwill',
     handle: '@goldfindsonly',
-    platform: 'Instagram',
-    platformIcon: '📸',
-    tags: ['accessories', 'jewelry'],
-    saves: 3201,
     bgClass: 'inspo-bg-5',
-    sizeTag: null,
-    link: '#'
+    pinned: false
   },
   {
     id: 6,
     image: '🧵',
     title: 'SS25 Bottega Veneta — find the thrift version',
     handle: '@runwaytothrift',
-    platform: 'Runway',
-    platformIcon: '🏛️',
-    tags: ['runway', 'designer'],
-    saves: 1890,
     bgClass: 'inspo-bg-6',
-    sizeTag: null,
-    link: '#'
+    pinned: false
   },
   {
     id: 7,
     image: '👚',
-    title: 'Cottagecore garden party fit — size 2X',
+    title: 'Cottagecore garden party fit',
     handle: '@plussizecottage',
-    platform: 'Pinterest',
-    platformIcon: '📌',
-    tags: ['cottagecore', 'plus-size'],
-    saves: 978,
     bgClass: 'inspo-bg-1',
-    sizeTag: 'Size 2X',
-    link: '#'
+    pinned: false
   },
   {
     id: 8,
     image: '🕶️',
     title: 'Vintage Versace frames for $8 — how to spot them',
     handle: '@thriftoptics',
-    platform: 'TikTok',
-    platformIcon: '🎵',
-    tags: ['accessories', 'vintage'],
-    saves: 2456,
     bgClass: 'inspo-bg-3',
-    sizeTag: null,
-    link: '#'
+    pinned: false
   },
 ];
 
@@ -423,7 +383,9 @@ const purchases = [
 ];
 
 const budgetData = {
-  monthly: 150,
+  monthly: 0,
+  period: 'month',
+  isSetUp: false,
   get spent() {
     return purchases.reduce((sum, p) => sum + p.price, 0);
   }
@@ -471,7 +433,6 @@ const imagePlaceholderSVG = `<svg width="24" height="24" viewBox="0 0 24 24" fil
 function renderTopicList() {
   const list = document.getElementById('topic-list');
   list.innerHTML = categories.map(cat => {
-    const optionCount = cat.subtitle.match(/\d+/)?.[0] || cat.sections.length;
     return `
     <div class="topic-card" data-tags="${cat.tags.join(',')}" data-id="${cat.id}" onclick="showCategoryDetail('${cat.id}')">
       <div class="topic-card-bg ${cat.bgClass}">
@@ -479,46 +440,37 @@ function renderTopicList() {
         <div class="topic-card-icon">
           ${imagePlaceholderSVG}
         </div>
-        <span class="topic-card-count">${optionCount} Options</span>
       </div>
     </div>
   `;
   }).join('');
 }
 
-function renderInspoFeed(filter) {
+function renderInspoFeed() {
   const feed = document.getElementById('inspo-feed');
-  const filtered = !filter || filter === 'all'
-    ? inspoFeed
-    : inspoFeed.filter(item => item.tags.includes(filter));
 
-  feed.innerHTML = filtered.map(item => `
-    <div class="inspo-card">
-      <div class="inspo-image ${item.bgClass}">
-        <span class="inspo-emoji">${item.image}</span>
-        ${item.sizeTag ? `<span class="inspo-size-tag">${item.sizeTag}</span>` : ''}
-        <span class="inspo-platform">${item.platformIcon}</span>
+  feed.innerHTML = inspoFeed.map(item => `
+    <div class="bulletin-card ${item.pinned ? 'pinned' : ''}" data-id="${item.id}">
+      <button class="pin-btn ${item.pinned ? 'pinned' : ''}" onclick="togglePin(${item.id})" title="${item.pinned ? 'Unpin' : 'Pin this'}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="${item.pinned ? 'var(--primary)' : 'none'}" stroke="${item.pinned ? 'var(--primary)' : 'currentColor'}" stroke-width="2"><path d="M12 2L12 22"/><path d="M5 10l7-4 7 4"/><circle cx="12" cy="6" r="2"/></svg>
+      </button>
+      <div class="bulletin-image ${item.bgClass}">
+        <span class="bulletin-emoji">${item.image}</span>
       </div>
-      <div class="inspo-body">
-        <p class="inspo-title">${item.title}</p>
-        <div class="inspo-source">
-          <span class="inspo-handle">${item.handle}</span>
-          <span class="inspo-dot">·</span>
-          <span class="inspo-platform-name">${item.platform}</span>
-        </div>
-        <div class="inspo-actions">
-          <span class="inspo-tags">${item.tags.map(t => `<span class="inspo-tag">${t}</span>`).join('')}</span>
-          <span class="inspo-save">♡ ${item.saves.toLocaleString()}</span>
-        </div>
+      <div class="bulletin-body">
+        <p class="bulletin-title">${item.title}</p>
+        <span class="bulletin-handle">${item.handle}</span>
       </div>
     </div>
   `).join('');
 }
 
-function filterInspo(btn, filter) {
-  btn.closest('.filter-pills').querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  renderInspoFeed(filter);
+function togglePin(id) {
+  const item = inspoFeed.find(i => i.id === id);
+  if (item) {
+    item.pinned = !item.pinned;
+    renderInspoFeed();
+  }
 }
 
 function renderThriftList() {
@@ -590,29 +542,42 @@ function addToThriftList() {
 // BUDGET
 // ==========================================
 
+let selectedPeriod = 'month';
+
+function selectPeriod(btn, period) {
+  document.querySelectorAll('.planner-period-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedPeriod = period;
+}
+
+function submitBudgetPlan() {
+  const amount = parseFloat(document.getElementById('planner-amount').value);
+  if (!amount || amount <= 0) return;
+
+  budgetData.monthly = amount;
+  budgetData.period = selectedPeriod;
+  budgetData.isSetUp = true;
+
+  document.getElementById('budget-planner').style.display = 'none';
+  document.getElementById('budget-main').style.display = 'block';
+
+  renderBudget();
+  renderPurchaseList();
+}
+
 function renderBudget() {
+  if (!budgetData.isSetUp) return;
+
   const spent = budgetData.spent;
   const monthly = budgetData.monthly;
   const remaining = monthly - spent;
-  const pct = Math.min((spent / monthly) * 100, 100);
+  const pct = monthly > 0 ? Math.min((spent / monthly) * 100, 100) : 0;
 
   document.getElementById('budget-spent').textContent = `$${spent.toFixed(2)}`;
-  document.getElementById('budget-remaining').textContent = `$${remaining.toFixed(2)} remaining this month`;
+  document.getElementById('budget-total').textContent = `of $${monthly.toFixed(2)}`;
+  document.getElementById('budget-remaining').textContent = `$${remaining.toFixed(2)} remaining this ${budgetData.period}`;
   document.getElementById('budget-bar-fill').style.width = `${pct}%`;
-
-  // Category breakdown
-  const cats = {};
-  purchases.forEach(p => {
-    cats[p.category] = (cats[p.category] || 0) + p.price;
-  });
-
-  const catEl = document.getElementById('budget-categories');
-  catEl.innerHTML = Object.entries(cats).map(([cat, amount]) => `
-    <div class="budget-cat-item">
-      <span class="budget-cat-name">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span>
-      <span class="budget-cat-amount">$${amount.toFixed(2)}</span>
-    </div>
-  `).join('');
+  document.getElementById('budget-period-label').textContent = `Thrift budget for this ${budgetData.period}`;
 }
 
 function renderPurchaseList() {
