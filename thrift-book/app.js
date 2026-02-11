@@ -11,7 +11,6 @@ const categories = [
     id: 'clothing',
     title: 'Clothing',
     subtitle: '24 guides',
-    badge: 'Popular',
     tags: ['popular', 'clothing'],
     bgClass: 'cat-bg-1',
     viewers: 342,
@@ -48,7 +47,6 @@ const categories = [
     id: 'jewellery',
     title: 'Jewellery',
     subtitle: '18 guides',
-    badge: 'Hot',
     tags: ['popular', 'accessories', 'vintage'],
     bgClass: 'cat-bg-2',
     viewers: 289,
@@ -148,7 +146,6 @@ const categories = [
     id: 'shoes',
     title: 'Shoes',
     subtitle: '14 guides',
-    badge: 'New',
     tags: ['popular', 'clothing', 'accessories'],
     bgClass: 'cat-bg-6',
     viewers: 187,
@@ -191,7 +188,6 @@ const categories = [
     id: 'handbags',
     title: 'Handbags',
     subtitle: '16 guides',
-    badge: 'Hot',
     tags: ['popular', 'accessories'],
     bgClass: 'cat-bg-8',
     viewers: 367,
@@ -255,7 +251,6 @@ const categories = [
     id: 'denim',
     title: 'Denim',
     subtitle: '11 guides',
-    badge: 'Popular',
     tags: ['popular', 'clothing'],
     bgClass: 'cat-bg-11',
     viewers: 321,
@@ -403,14 +398,6 @@ const inspoFeed = [
   },
 ];
 
-const trendingGuides = [
-  { title: 'How to Read Clothing Labels', subtitle: 'Decode fabric content & care', category: 'clothing' },
-  { title: 'Thrift Store Red Flags', subtitle: 'What to always avoid buying', category: 'clothing' },
-  { title: 'Best Thrift Store Chains Ranked', subtitle: 'Where to get the best deals', category: 'reselling' },
-  { title: 'Apps Every Thrifter Needs', subtitle: 'Price check & authenticate on the go', category: 'reselling' },
-  { title: 'Sustainable Fashion Guide', subtitle: 'Thrifting for the planet', category: 'clothing' },
-];
-
 const thriftListItems = [
   { name: 'Oversized wool blazer', note: 'Earth tones, check for moth holes', board: 'clothing', found: false, bgClass: 'cat-bg-1' },
   { name: 'Vintage Levi\'s 501s', note: 'Size 28-30, look for Big E tab', board: 'clothing', found: false, bgClass: 'cat-bg-11' },
@@ -458,7 +445,6 @@ let currentSection = null;
 document.addEventListener('DOMContentLoaded', () => {
   renderTopicList();
   renderInspoFeed();
-  renderTrendingGuides();
   renderThriftList();
   renderBudget();
   renderPurchaseList();
@@ -493,7 +479,6 @@ function renderTopicList() {
         <h3>${cat.title}</h3>
         <p>${cat.subtitle} · ${cat.viewers} learning</p>
       </div>
-      ${cat.badge ? `<span class="topic-badge">${cat.badge}</span>` : ''}
       <svg class="topic-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
     </div>
   `).join('');
@@ -532,25 +517,6 @@ function filterInspo(btn, filter) {
   btn.closest('.filter-pills').querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   renderInspoFeed(filter);
-}
-
-function renderTrendingGuides() {
-  const list = document.getElementById('trending-list');
-  list.innerHTML = trendingGuides.map((guide, i) => `
-    <div class="trending-item" onclick="showCategoryDetail('${guide.category}')">
-      <span class="trending-number">${i + 1}</span>
-      <div class="trending-image cat-bg-${(i % 12) + 1}">
-        ${imagePlaceholderSVG}
-      </div>
-      <div class="trending-info">
-        <h4>${guide.title}</h4>
-        <p>${guide.subtitle}</p>
-      </div>
-      <span class="trending-arrow">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-      </span>
-    </div>
-  `).join('');
 }
 
 function renderThriftList() {
@@ -700,7 +666,7 @@ function addPurchase() {
 
 function switchPage(pageId, navBtn) {
   // Hide overlay pages
-  ['page-detail', 'page-topic'].forEach(id => {
+  ['page-detail', 'page-topic', 'page-article'].forEach(id => {
     const p = document.getElementById(id);
     p.classList.remove('active');
     p.style.display = 'none';
@@ -811,28 +777,22 @@ function showArticleDetail(categoryId, sectionIndex) {
   let html = '';
 
   if (section.tips) {
-    html += `<div class="tip-list">`;
+    html += `<div class="article-list">`;
     section.tips.forEach((tip, i) => {
       html += `
-        <div class="tip-item">
-          <span class="tip-number">${i + 1}</span>
-          <div class="tip-text">
-            <h4>${tip.title}</h4>
-            <p>${tip.desc}</p>
+        <div class="article-item" onclick="showTipDetail('${categoryId}', ${sectionIndex}, ${i})">
+          <div class="article-image ${category.bgClass}">
+            ${imagePlaceholderSVG}
           </div>
+          <div class="article-info">
+            <h3>${tip.title}</h3>
+            <p>${tip.desc.length > 65 ? tip.desc.substring(0, 65) + '...' : tip.desc}</p>
+          </div>
+          <svg class="article-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
         </div>
       `;
     });
     html += `</div>`;
-  }
-
-  if (section.proTip) {
-    html += `
-      <div class="pro-tip">
-        <div class="pro-tip-label">Pro Tip</div>
-        <p>${section.proTip}</p>
-      </div>
-    `;
   }
 
   if (section.checklist) {
@@ -848,6 +808,15 @@ function showArticleDetail(categoryId, sectionIndex) {
     html += `</div>`;
   }
 
+  if (section.proTip) {
+    html += `
+      <div class="pro-tip">
+        <div class="pro-tip-label">Pro Tip</div>
+        <p>${section.proTip}</p>
+      </div>
+    `;
+  }
+
   content.innerHTML = html;
 
   // Show detail page
@@ -861,6 +830,125 @@ function showArticleDetail(categoryId, sectionIndex) {
   detailPage.classList.add('active');
   detailPage.style.animation = 'slideInRight 0.3s ease';
   detailPage.scrollTop = 0;
+}
+
+function showTipDetail(categoryId, sectionIndex, tipIndex) {
+  currentCategory = categoryId;
+  currentSection = sectionIndex;
+
+  const category = categories.find(c => c.id === categoryId);
+  if (!category) return;
+
+  const section = category.sections[sectionIndex];
+  const tip = section.tips[tipIndex];
+
+  document.getElementById('article-title').textContent = tip.title;
+  document.getElementById('article-subtitle').textContent = section.title;
+
+  const content = document.getElementById('article-content');
+  let html = '';
+
+  // Main article content
+  html += `
+    <div class="article-body-card">
+      <p>${tip.desc}</p>
+    </div>
+  `;
+
+  // Pro tip if available
+  if (section.proTip) {
+    html += `
+      <div class="pro-tip">
+        <div class="pro-tip-label">Pro Tip</div>
+        <p>${section.proTip}</p>
+      </div>
+    `;
+  }
+
+  // Keep Learning — other tips from same section
+  const otherTips = section.tips
+    .map((t, i) => ({ ...t, index: i }))
+    .filter((_, i) => i !== tipIndex);
+
+  if (otherTips.length > 0) {
+    html += `
+      <div class="related-section">
+        <h3>Keep Learning</h3>
+        <div class="article-list">
+    `;
+    otherTips.forEach(otherTip => {
+      html += `
+        <div class="article-item" onclick="showTipDetail('${categoryId}', ${sectionIndex}, ${otherTip.index})">
+          <div class="article-image ${category.bgClass}">
+            ${imagePlaceholderSVG}
+          </div>
+          <div class="article-info">
+            <h3>${otherTip.title}</h3>
+            <p>${otherTip.desc.length > 65 ? otherTip.desc.substring(0, 65) + '...' : otherTip.desc}</p>
+          </div>
+          <svg class="article-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      `;
+    });
+    html += `</div></div>`;
+  }
+
+  // More from this category — other sections
+  const otherSections = category.sections
+    .map((s, i) => ({ ...s, index: i }))
+    .filter((_, i) => i !== sectionIndex);
+
+  if (otherSections.length > 0) {
+    html += `
+      <div class="related-section">
+        <h3>More in ${category.title}</h3>
+        <div class="article-list">
+    `;
+    otherSections.forEach(sec => {
+      html += `
+        <div class="article-item" onclick="showArticleDetail('${categoryId}', ${sec.index})">
+          <div class="article-image ${category.bgClass}">
+            ${imagePlaceholderSVG}
+          </div>
+          <div class="article-info">
+            <h3>${sec.title}</h3>
+            <p>${getArticleDescription(sec)}</p>
+          </div>
+          <svg class="article-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      `;
+    });
+    html += `</div></div>`;
+  }
+
+  content.innerHTML = html;
+
+  // Show article page
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
+
+  const articlePage = document.getElementById('page-article');
+  articlePage.style.display = 'block';
+  articlePage.classList.add('active');
+  articlePage.style.animation = 'slideInRight 0.3s ease';
+  articlePage.scrollTop = 0;
+}
+
+function hideTipDetail() {
+  const articlePage = document.getElementById('page-article');
+  articlePage.style.animation = 'slideOutRight 0.25s ease forwards';
+
+  setTimeout(() => {
+    articlePage.classList.remove('active');
+    articlePage.style.display = 'none';
+    articlePage.style.animation = '';
+
+    if (currentCategory !== null && currentSection !== null) {
+      showArticleDetail(currentCategory, currentSection);
+    }
+  }, 250);
 }
 
 function hideArticleDetail() {
