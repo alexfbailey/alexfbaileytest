@@ -671,8 +671,8 @@ body {
 .cork-card.found { opacity: 0.45; }
 
 .cork-card-image {
-  width: 120px;
-  height: 140px;
+  width: 150px;
+  height: 170px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -696,8 +696,8 @@ body {
   border: 3px solid var(--white);
 }
 
-.cork-card:nth-child(odd) .cork-card-image { width: 110px; height: 130px; }
-.cork-card:nth-child(even) .cork-card-image { width: 125px; height: 145px; }
+.cork-card:nth-child(odd) .cork-card-image { width: 140px; height: 160px; }
+.cork-card:nth-child(even) .cork-card-image { width: 155px; height: 175px; }
 
 .cork-card-check {
   position: absolute;
