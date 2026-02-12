@@ -431,7 +431,7 @@ function updateTime() {
 const imagePlaceholderSVG = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.25)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>`;
 
 // Dress cut-out SVG (vision board placeholder — white outline silhouette)
-const dressCutoutSVG = `<svg width="70" height="95" viewBox="0 0 48 64" fill="none" stroke-linecap="round" stroke-linejoin="round">
+const dressCutoutSVG = `<svg width="100" height="135" viewBox="0 0 48 64" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path d="M18 4 C18 4 16 2 14 2 C12 2 10 3 10 5 C10 7 12 9 14 10 L12 18 L6 32 L10 34 L14 26 L12 58 C12 60 14 62 18 62 L30 62 C34 62 36 60 36 58 L34 26 L38 34 L42 32 L36 18 L34 10 C36 9 38 7 38 5 C38 3 36 2 34 2 C32 2 30 4 30 4 L28 8 L24 10 L20 8 Z" fill="rgba(180,180,180,0.25)" stroke="white" stroke-width="3"/>
   <path d="M18 4 C18 4 16 2 14 2 C12 2 10 3 10 5 C10 7 12 9 14 10 L12 18 L6 32 L10 34 L14 26 L12 58 C12 60 14 62 18 62 L30 62 C34 62 36 60 36 58 L34 26 L38 34 L42 32 L36 18 L34 10 C36 9 38 7 38 5 C38 3 36 2 34 2 C32 2 30 4 30 4 L28 8 L24 10 L20 8 Z" fill="none" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
 </svg>`;
@@ -442,11 +442,11 @@ function renderTopicList() {
     return `
     <div class="topic-card" data-tags="${cat.tags.join(',')}" data-id="${cat.id}" onclick="showCategoryDetail('${cat.id}')">
       <div class="topic-card-bg ${cat.bgClass}">
-        <h3 class="topic-card-title">${cat.title}</h3>
         <div class="topic-card-icon">
           ${imagePlaceholderSVG}
         </div>
       </div>
+      <h3 class="topic-card-title">${cat.title}</h3>
     </div>
   `;
   }).join('');
@@ -789,6 +789,10 @@ function switchPage(pageId, navBtn) {
   // Update nav
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   navBtn.classList.add('active');
+
+  // Show FAB only on Vision Board page
+  const fab = document.getElementById('fab-add');
+  if (fab) fab.style.display = pageId === 'featured' ? 'flex' : 'none';
 }
 
 
